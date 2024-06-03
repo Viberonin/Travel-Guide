@@ -1,0 +1,17 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#272727"
+  image: "assets/logo/airpl.png"
+  image_dark: "assets/logo/airpl.png"
+  android: true
+  ios: true
+
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#272727"
+    image: "assets/logo/airpl.png"
+    image_dark: "assets/logo/airpl.png"
+    android: true
+    ios: true
+  
+  web: false
