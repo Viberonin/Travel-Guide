@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1005150037788",
+    "project_id": "maps-api-for-pa-pens",
+    "storage_bucket": "maps-api-for-pa-pens.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005150037788:android:92737cf5ae1efb00f57cd9",
+        "android_client_info": {
+          "package_name": "com.evan.travelguide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjwSrMemsGhDmzbYuHxKNN-i4LmJ-jxko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
