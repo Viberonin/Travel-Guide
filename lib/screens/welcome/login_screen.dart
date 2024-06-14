@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:travelguide/controllers/login/login_controller.dart';
 import 'package:travelguide/screens/welcome/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     ScreenUtil.init(
       context,
       designSize: const Size(375, 812),
@@ -45,34 +49,49 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: GoogleFonts.poppins(
                         fontSize: 14, fontWeight: FontWeight.normal)),
                 Form(
+                  key: controller.loginFormKey,
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
+                          controller: controller.email,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person_2_outlined),
+                            prefixIcon: Icon(Iconsax.personalcard),
                             labelText: "E-mail",
                             border: OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: controller.password,
                           obscureText: _obscureText,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesomeIcons.fingerprint),
+                            prefixIcon: Icon(Iconsax.finger_scan),
                             labelText: "Password",
                             border: OutlineInputBorder(),
                             suffixIcon: IconButton(
                               onPressed: _togglePasswordVisibility,
                               icon: Icon(
                                 _obscureText
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 5),
                         Align(
@@ -83,20 +102,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: GoogleFonts.poppins())),
                         ),
                         SizedBox(
-                            width: double.infinity,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.blue,
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text("LOGIN",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white)
-                                        ),
-                              ),
+                          width: double.infinity,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.blue,
                             ),
+                            child: TextButton(
+                              onPressed: () {
+                                if (controller.loginFormKey.currentState!
+                                    .validate()) {
+                                  controller.emailAndPasswordSignIn();
+                                }
+                              },
+                              child: Text("LOGIN",
+                                  style:
+                                      GoogleFonts.poppins(color: Colors.white)),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -121,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 10),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+                        Get.off(() => SignUpScreen());
                       },
                       child: Text.rich(
                         TextSpan(

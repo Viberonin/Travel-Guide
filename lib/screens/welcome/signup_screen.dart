@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:travelguide/controllers/signup_controller.dart';
+import 'package:travelguide/controllers/signup/signup_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image(
-                    image: const AssetImage("assets/images/onb_1.png"),
+                    image: const AssetImage("assets/images/signup.png"),
                     height: MediaQuery.of(context).size.height * 0.3),
                 Text("Create a new account",
                     style: GoogleFonts.poppins(

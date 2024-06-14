@@ -8,7 +8,7 @@ class OnboardingItems {
       subtitle: 'Welcome to our app!',
     ),
     OnboardingPage(
-      imagePath: 'assets/images/onb_2.png',
+      imagePath: 'assets/images/onb_1.png',
       title: 'Learn',
       subtitle: 'Learn how to use our app.',
     ),
