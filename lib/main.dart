@@ -103,6 +103,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travelguide/firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:travelguide/repositories/authentication/auth_repo.dart';
+import 'package:travelguide/repositories/destination/destination_repo.dart';
 import 'package:travelguide/screens/onboarding/onboarding_screen.dart';
 import 'package:travelguide/screens/splash/splash_screen.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
@@ -147,6 +148,7 @@ class InitialScreen extends StatelessWidget {
     return FutureBuilder(
       future: Future.delayed(Duration(seconds: 1), () {
         Get.put(AuthenticationRepository());
+        Get.put(DestinationRepository());
       }),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

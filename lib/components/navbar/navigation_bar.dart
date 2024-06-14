@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:travelguide/controllers/favourite/favourite_controller.dart';
+import 'package:travelguide/screens/favourite/favourite_screen.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
 import 'package:travelguide/screens/profile/profile_screen.dart';
 
@@ -12,6 +14,7 @@ class NavigationMenu extends StatelessWidget {
     final controller = Get.put(NavigationController());
 
     return Scaffold(
+      extendBody: true,
       bottomNavigationBar: Obx(
         () => NavigationBar(
           backgroundColor: Colors.white,
@@ -23,7 +26,8 @@ class NavigationMenu extends StatelessWidget {
           destinations: [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
             NavigationDestination(icon: Icon(Iconsax.map), label: 'Map'),
-            NavigationDestination(icon: Icon(Iconsax.heart), label: 'Favorites'),
+            NavigationDestination(
+                icon: Icon(Iconsax.heart), label: 'Favorites'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),
@@ -38,7 +42,7 @@ class NavigationController extends GetxController {
   final screens = [
     HomeScreen(),
     Container(color: Colors.purpleAccent),
-    Container(color: Colors.cyanAccent),
+    FavouriteScreen(),
     const ProfileScreen(),
   ];
 }
