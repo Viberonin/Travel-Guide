@@ -96,6 +96,7 @@
 //   }
 // }
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -104,6 +105,7 @@ import 'package:travelguide/firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:travelguide/repositories/authentication/auth_repo.dart';
 import 'package:travelguide/repositories/destination/destination_repo.dart';
+import 'package:travelguide/repositories/user/user_repo.dart';
 import 'package:travelguide/screens/onboarding/onboarding_screen.dart';
 import 'package:travelguide/screens/splash/splash_screen.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
@@ -114,6 +116,22 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final prefs = await SharedPreferences.getInstance();
   final onboarding = prefs.getBool("onboarding") ?? false;
+  
+  // FirebaseApp secondaryApp = await Firebase.initializeApp(
+  //   name: 'wisatadb1',
+  //   options: FirebaseOptions(
+  //     apiKey: DefaultFirebaseOptions.currentPlatform.apiKey,
+  //     appId: DefaultFirebaseOptions.currentPlatform.appId,
+  //     messagingSenderId: DefaultFirebaseOptions.currentPlatform.messagingSenderId,
+  //     projectId: DefaultFirebaseOptions.currentPlatform.projectId,
+  //     authDomain: DefaultFirebaseOptions.currentPlatform.authDomain,
+  //     storageBucket: DefaultFirebaseOptions.currentPlatform.storageBucket,
+  //     databaseURL: 'https://maps-api-for-pa-pens.firebaseio.com',  // Firestore does not use this directly, but required
+  //   ),
+  // );
+
+  // FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: secondaryApp);
+
   runApp(MyApp(onboarding: onboarding));
 }
 
@@ -127,7 +145,7 @@ class MyApp extends StatelessWidget {
       designSize: Size(375, 812),
       builder: (_, __) => GetMaterialApp(
         defaultTransition: Transition.rightToLeftWithFade,
-        transitionDuration: const Duration(milliseconds: 200),
+        transitionDuration: const Duration(milliseconds: 500),
         debugShowCheckedModeBanner: false,
         title: 'Travel Guide',
         theme: ThemeData(
@@ -149,6 +167,7 @@ class InitialScreen extends StatelessWidget {
       future: Future.delayed(Duration(seconds: 1), () {
         Get.put(AuthenticationRepository());
         Get.put(DestinationRepository());
+        Get.put(UserRepository());
       }),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

@@ -27,4 +27,6 @@ class TImages {
   static String cloudUploadingAnimation =
       "assets/animations/cloud-uploading-animation.json";
   static String loaderAnimation = "assets/animations/loader-animation.json";
+
+  static const String user = "assets/images/profile.png";
 }

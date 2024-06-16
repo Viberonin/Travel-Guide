@@ -1,369 +1,375 @@
-// import 'package:flutter/material.dart';
-// import 'package:travelguide/screens/home/top_trip_card.dart';
-
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-
-// class _HomeScreenState extends State<HomeScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: _buildLocationIndicator(),
-//         actions: [
-//           _buildNotificationIcon(),
-//         ],
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: _buildSearchSection(),
-//             ),
-//             SizedBox(height: 10),
-//             _buildTopTripsSection(),
-//             // The rest of your UI will go here.
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildLocationIndicator() {
-//     return Row(
-//       children: <Widget>[
-//         Icon(Icons.location_on, color: Colors.black54),
-//         SizedBox(width: 4.0),
-//         Text(
-//           'Surabaya, Jawa Timur',
-//           style: TextStyle(
-//             color: Colors.black54,
-//             fontSize: 16.0,
-//           ),
-//         ),
-//         Icon(Icons.arrow_drop_down, color: Colors.black54),
-//       ],
-//     );
-//   }
-
-//   Widget _buildNotificationIcon() {
-//     return IconButton(
-//       icon: Icon(Icons.notifications_none, color: Colors.black54),
-//       onPressed: () {
-//         // Define the action when the notification icon is pressed.
-//       },
-//     );
-//   }
-
-//   Widget _buildSearchSection() {
-//     // Assuming 48.0 is the height you want for both the TextField and the ElevatedButton
-//     final double buttonHeight = 48.0;
-//     final double buttonWidth = buttonHeight; // To make the button a circle with equal width and height
-
-//     return Row(
-//       children: <Widget>[
-//         Expanded(
-//           child: TextField(
-//             decoration: InputDecoration(
-//               hintText: 'Search',
-//               prefixIcon: Icon(Icons.search),
-//               border: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(30.0),
-//                 borderSide: BorderSide.none,
-//               ),
-//               filled: true,
-//               fillColor: Colors.grey[200],
-//               isDense: true, // Added to control the field's density
-//               contentPadding: EdgeInsets.fromLTRB(20, buttonHeight / 2 - 12, 20, buttonHeight / 2 - 12), // Adjusts padding to center the text vertically
-//             ),
-//           ),
-//         ),
-//         SizedBox(width: 10),
-//         ElevatedButton(
-//           onPressed: () {
-//             // Define the action for the filter button.
-//           },
-//           style: ElevatedButton.styleFrom(
-//             backgroundColor: Colors.blue, // Background color
-//             shape: CircleBorder(),
-//             padding: EdgeInsets.zero, // Padding is set to zero
-//           ).copyWith( // Using copyWith to specify the fixedSize
-//             fixedSize: WidgetStateProperty.all<Size>(Size(buttonWidth, buttonHeight)),
-//           ),
-//           child: Icon(Icons.filter_list, color: Colors.white),
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget _buildTopTripsSection() {
-//     return Container(
-//       height: 220, // Set a fixed height for the horizontal list
-//       child: ListView.builder(
-//         scrollDirection: Axis.horizontal,
-//         itemCount: 10, // The number of top trips cards
-//         itemBuilder: (BuildContext context, int index) {
-//           return TopTripCard(
-//             // Assuming you have a model or data structure, pass the relevant data here
-//             title: 'Gua Jomblang',
-//             rating: 4.7,
-//             location: 'Lumajang',
-//             price: '\$40/Visit',
-//             imageUrl: 'assets/images/trip_image.jpg', // Replace with your actual image asset or network image path
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'widgets/category_item.dart';
-// import 'widgets/trip_item.dart';
-// import 'widgets/location_search.dart';
-// import 'widgets/search_bar.dart';
-
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-
-// class _HomeScreenState extends State<HomeScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: LocationSearch(),
-//         elevation: 0,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             SearchBarWid(),
-//             SizedBox(height: 10),
-//             Text('Categories', style: Theme.of(context).textTheme.headlineSmall),
-//             SizedBox(height: 10),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 CategoryItem(label: 'Cave', icon: Icons.terrain),
-//                 CategoryItem(label: 'Museum', icon: Icons.museum),
-//                 CategoryItem(label: 'Religious', icon: Icons.account_balance),
-//                 CategoryItem(label: 'Historical', icon: Icons.history),
-//               ],
-//             ),
-//             SizedBox(height: 20),
-//             Text('Top Trips', style: Theme.of(context).textTheme.headlineSmall),
-//             SizedBox(height: 10),
-//             Expanded(
-//               child: ListView(
-//                 children: [
-//                   TripItem(
-//                     imageUrl: 'https://example.com/gua_jomblang.jpg',
-//                     title: 'Gua Jomblang',
-//                     location: 'Lumajang',
-//                     price: '\$40 / Visit',
-//                     rating: 4.7,
-//                   ),
-//                   TripItem(
-//                     imageUrl: 'https://example.com/gua_pindul.jpg',
-//                     title: 'Gua Pindul',
-//                     location: 'Pasuruan',
-//                     price: '\$40 / Visit',
-//                     rating: 4.6,
-//                   ),
-//                   TripItem(
-//                     imageUrl: 'https://example.com/mt_semeru.jpg',
-//                     title: 'Mountain Trip',
-//                     location: 'Mt. Semeru, Probolinggo',
-//                     price: '\$50 / Visit',
-//                     rating: 4.8,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//       bottomNavigationBar: BottomNavigationBar(
-//         items: [
-//           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-//           BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Location'),
-//           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
-//           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-//           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:travelguide/components/navbar/navigation_bar.dart';
-// import 'package:travelguide/screens/profile/profile_screen.dart';
-
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-
-// class _HomeScreenState extends State<HomeScreen> {
-//   TextEditingController _searchController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('HomeScreen UI'),
-//       ),
-//       body: Column(
-//         children: <Widget>[
-//           Padding(
-//             padding: const EdgeInsets.all(16.0),
-//             child: TextField(
-//               controller: _searchController,
-//               decoration: InputDecoration(
-//                 hintText: 'Search...',
-//                 prefixIcon: Icon(Icons.search),
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: <Widget>[
-//                   Text(
-//                     'Welcome to the HomeScreen!',
-//                     style: TextStyle(fontSize: 24),
-//                   ),
-//                   SizedBox(height: 20),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       Get.to(NavigationMenu());
-//                     },
-//                     child: Text('Button 1'),
-//                   ),
-//                   SizedBox(height: 10),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       Get.to(ProfileScreen());
-//                     },
-//                     child: Text('Button 2'),
-//                   ),
-//                   SizedBox(height: 10),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       // Add your onPressed code here!
-//                     },
-//                     child: Text('Button 3'),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     _searchController.dispose();
-//     super.dispose();
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:travelguide/constants/sizes.dart';
+import 'package:travelguide/controllers/user/user_controller.dart';
+import 'package:travelguide/models/user_model.dart';
+import 'package:travelguide/repositories/authentication/auth_repo.dart';
+import 'package:travelguide/screens/favourite/favourite_screen.dart';
 import 'package:travelguide/screens/home/widgets/categories_widget.dart';
+import 'package:travelguide/screens/home/widgets/search_and_filter.dart';
 import 'package:travelguide/screens/home/widgets/top_trips_widget.dart';
+import 'package:travelguide/screens/list_all/all_destination_screen.dart';
+import 'package:travelguide/utils/device_utility.dart';
+import 'package:travelguide/screens/home/showcase_destination.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+// class _HomeScreenState extends State<HomeScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         elevation: 0,
+//         title: Row(
+//           children: [
+//             Icon(
+//               Iconsax.location,
+//               color: Colors.black,
+//             ),
+//             SizedBox(width: 3),
+//             Text(
+//               'Surabaya, Jawa Timur',
+//               style: GoogleFonts.poppins(fontSize: 16),
+//             ),
+//             SizedBox(width: 3),
+//             Icon(
+//               Icons.keyboard_arrow_down,
+//               color: Colors.yellow,
+//             ),
+//           ],
+//         ),
+//         actions: [
+//           IconButton(
+//             icon: Icon(
+//               Iconsax.notification5,
+//               color: Colors.black,
+//             ),
+//             onPressed: () {},
+//           ),
+//         ],
+//       ),
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: Column(
+//             children: [
+//               SearchAndFilter(),
+//               SizedBox(height: 16),
+//               CategoriesWidget(),
+//               SizedBox(height: 16),
+//               TopTripsWidget(),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class _HomeScreenState extends State<HomeScreen> {
+  final userController = Get.put(UserController());
+
+  @override
+  void initState() {
+    super.initState();
+    userController
+        .fetchUserRecord(); // Fetch user record when the screen is initialized
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            Icon(
-              Icons.location_on,
-              color: Colors.black,
-            ),
-            SizedBox(width: 8),
-            Text(
-              'Surabaya, Jawa Timur',
-              style: TextStyle(color: Colors.black),
-            ),
-            Icon(
-              Icons.keyboard_arrow_down,
-              color: Colors.yellow,
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
+    final user = userController.user.value;
+
+    Widget header() {
+      return Container(
+        margin: EdgeInsets.only(
+            top: TSizes.defaultSpace,
+            left: TSizes.defaultSpace,
+            right: TSizes.defaultSpace),
+        child: Row(children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      hintText: 'Search',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
+                Text(
+                  // 'Hello ${user.firstName!.split(" ")[0]}!',
+                  "Hello! How are you feeling today?",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Icon(Iconsax.filter4),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), backgroundColor: Colors.teal,
-                    padding: EdgeInsets.all(16),
-                  ),
+                Text(
+                  // '@${user.username}',
+                  "Hoping for the rest of your day to be amazing!",
+                  style: GoogleFonts.poppins(fontSize: 14),
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            CategoriesWidget(),
-            SizedBox(height: 16),
-            TopTripsWidget(),
+          ),
+          ClipOval(
+            child: Image.asset(
+              'assets/images/profile.png',
+              height: 54,
+              width: 54,
+            ),
+          )
+        ]),
+      );
+    }
+
+    Widget bannerJelajahiDestinasiAll() {
+      return GestureDetector(
+        onTap: () {
+          Get.put(AllDestinationScreen());
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+          margin: EdgeInsets.only(
+            top: TSizes.defaultSpace,
+            right: TSizes.defaultSpace,
+            left: TSizes.defaultSpace,
+          ),
+          height: 150,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xFFFFCD5D)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Jelajahi Destinasi",
+                    style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    "Sesuka Kamu",
+                    style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Cek Sekarang",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      )
+                    ],
+                  )
+                ],
+              ),
+              Image.asset(
+                'assets/images/onb_1.png',
+                // height: 150,
+                fit: BoxFit.contain,
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget bannerKunjungiFavorit() {
+      return GestureDetector(
+        onTap: () {
+          Get.to(FavouriteScreen());
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+          margin: EdgeInsets.only(
+            top: TSizes.defaultSpace,
+            right: TSizes.defaultSpace,
+            left: TSizes.defaultSpace,
+          ),
+          height: 150,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xff38ABBE)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Lihat Apa Saja",
+                    style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    "Tempat Favoritmu",
+                    style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Kunjungi Sekarang",
+                        style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      )
+                    ],
+                  )
+                ],
+              ),
+              Image.asset(
+                'assets/images/onb_1.png',
+                // height: 150,
+                fit: BoxFit.contain,
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget TrendingDestinationTitle() {
+      return Container(
+        margin: EdgeInsets.only(
+          top: TSizes.defaultSpace,
+          right: TSizes.defaultSpace,
+          left: TSizes.defaultSpace,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Trending Destinations',
+              style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(AllDestinationScreen());
+              },
+              child: Text(
+                "See All",
+                style: GoogleFonts.poppins(
+                    fontSize: 16, color: Colors.black.withOpacity(0.5)),
+              ),
+            )
           ],
         ),
+      );
+    }
+
+    // List of destination data
+    final destinations = [
+      {
+        "imageUrl": 'assets/images/komodo.jpeg',
+        "title": 'Gua Jomblang',
+        "rating": '4.7',
+        "location": 'Lumajang',
+        "price": '40',
+      },
+      {
+        "imageUrl": 'assets/images/komodo.jpeg',
+        "title": 'Bromo Mountain',
+        "rating": '4.8',
+        "location": 'Malang',
+        "price": '50',
+      },
+      {
+        "imageUrl": 'assets/images/komodo.jpeg',
+        "title": 'Borobudur Temple',
+        "rating": '4.9',
+        "location": 'Magelang',
+        "price": '60',
+      },
+    ];
+
+    Widget showcaseDestinations() {
+      return ListView.builder(
+        shrinkWrap: true, // Important to prevent infinite height error
+        physics: NeverScrollableScrollPhysics(), // Prevent scrolling inside ListView
+        itemCount: destinations.length,
+        itemBuilder: (context, index) {
+          final destination = destinations[index];
+          return ShowcaseDestination(
+            imageUrl: destination['imageUrl']?.toString() ?? '',
+            title: destination['title']?.toString() ?? '',
+            rating: destination['rating']?.toString() ?? '',
+            location: destination['location']?.toString() ?? '',
+            price: destination['price']?.toString() ?? '',
+          );
+        },
+      );
+    }
+    return RefreshIndicator(
+      onRefresh: () {
+        return Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            // loadProduct();
+          });
+        });
+      },
+      child: ListView(
+        physics: BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        children: [
+          header(),
+          bannerJelajahiDestinasiAll(),
+          bannerKunjungiFavorit(),
+          TrendingDestinationTitle(),
+          showcaseDestinations(),
+        ],
       ),
     );
   }

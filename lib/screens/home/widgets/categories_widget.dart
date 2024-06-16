@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CategoriesWidget extends StatefulWidget {
   @override
@@ -25,13 +26,13 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
           children: [
             Text(
               'Categories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             TextButton(
               onPressed: () {},
               child: Text(
                 'See All',
-                style: TextStyle(color: Colors.grey),
+                style: GoogleFonts.poppins(),
               ),
             ),
           ],

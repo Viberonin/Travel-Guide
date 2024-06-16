@@ -70,6 +70,16 @@ class AuthenticationRepository extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late final Rx<User?> firebaseUser;
 
+   User? get _firebaseUser => firebaseUser.value;
+
+  String get getUserID => firebaseUser.value?.uid ?? "";
+
+  String get getUserEmail => firebaseUser.value?.email ?? "";
+
+  String get getDisplayName => firebaseUser.value?.displayName ?? "";
+
+  String get getPhoneNo => firebaseUser.value?.phoneNumber ?? "";
+
   @override
   void onReady() {
     super.onReady();

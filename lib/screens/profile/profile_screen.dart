@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travelguide/controllers/user/user_controller.dart';
 import 'package:travelguide/repositories/authentication/auth_repo.dart';
+import 'package:travelguide/widgets/shimmers/shimmer.dart';
+import 'package:travelguide/widgets/images/circular_image.dart';
+import 'package:travelguide/constants/image_strings.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(UserController()); 
+    final controller = UserController.instance;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -17,7 +23,8 @@ class ProfileScreen extends StatelessWidget {
         surfaceTintColor: Colors.white,
         // leading: IconButton(
         //     onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left)),
-        title: Text("Profile", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+        title: Text("Profile",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -30,24 +37,19 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Container(
-                      width: 150,
-                      height: 150,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Center(
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: AssetImage("assets/images/profile.png"),
-                        ),
-                      ),
+                    Obx(
+                      () {
+                        final networkImage = controller.user.value.profilePicture;
+                        final image = networkImage.isNotEmpty ? networkImage : TImages.user;
+                        return controller.imageUploading.value
+                            ? const TShimmerEffect(width: 150, height: 150, radius: 150)
+                            : TCircularImage(image: image, width: 150, height: 150, isNetworkImage: networkImage.isNotEmpty);
+                      },
                     ),
                     TextButton(
-                        onPressed: () {},
-                        child: Text("Change Profile Picture",
-                            style: GoogleFonts.poppins())),
+                      onPressed: controller.imageUploading.value ? () {} : () => controller.uploadUserProfilePicture(),
+                      child: Text('Change Profile Picture', style: GoogleFonts.poppins()),
+                    ),
                   ],
                 ),
               ),
@@ -178,19 +180,18 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.red,
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                AuthenticationRepository.instance.logout();
-                              },
-                              child: Text("LOGOUT",
-                                  style:
-                                      GoogleFonts.poppins(color: Colors.white)),
-                            ),
-                          ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red,
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      AuthenticationRepository.instance.logout();
+                    },
+                    child: Text("LOGOUT",
+                        style: GoogleFonts.poppins(color: Colors.white)),
+                  ),
+                ),
               ),
             ],
           ),

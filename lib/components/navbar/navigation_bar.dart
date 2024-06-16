@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:travelguide/controllers/favourite/favourite_controller.dart';
 import 'package:travelguide/screens/favourite/favourite_screen.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
+import 'package:travelguide/screens/list_all/all_destination_screen.dart';
 import 'package:travelguide/screens/profile/profile_screen.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -18,14 +19,14 @@ class NavigationMenu extends StatelessWidget {
       bottomNavigationBar: Obx(
         () => NavigationBar(
           backgroundColor: Colors.white,
-          indicatorColor: Color(0xFF008FA0),
+          indicatorColor: Colors.grey.withOpacity(0.2),
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) =>
               controller.selectedIndex.value = index,
           destinations: [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax.map), label: 'Map'),
+            NavigationDestination(icon: Icon(Iconsax.map), label: 'Destinations'),
             NavigationDestination(
                 icon: Icon(Iconsax.heart), label: 'Favorites'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
@@ -41,7 +42,7 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
   final screens = [
     HomeScreen(),
-    Container(color: Colors.purpleAccent),
+    AllDestinationScreen(),
     FavouriteScreen(),
     const ProfileScreen(),
   ];

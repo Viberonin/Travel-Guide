@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TopTripsWidget extends StatefulWidget {
   @override
@@ -10,21 +11,21 @@ class _TopTripsWidgetState extends State<TopTripsWidget> {
 
   final List<Map<String, dynamic>> trips = [
     {
-      'image': 'assets/images/onb_1.png', 
+      'image': 'assets/images/onb_1.png',
       'name': 'Gua Jomblang',
       'location': 'Lumajang',
       'price': '\$40 /Visit',
       'rating': 4.7
     },
     {
-      'image': 'assets/images/onb_1.png', 
+      'image': 'assets/images/onb_1.png',
       'name': 'Gua Pindul',
       'location': 'Pasuruan',
       'price': '\$40 /Visit',
       'rating': 4.6
     },
     {
-      'image': 'assets/images/onb_1.png', 
+      'image': 'assets/images/onb_1.png',
       'name': 'Gua Maria',
       'location': 'Lamongan',
       'price': '\$40 /Visit',
@@ -62,13 +63,7 @@ class _TopTripsWidgetState extends State<TopTripsWidget> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  // Navigate to DetailScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailScreen(),
-                    ),
-                  );
+                  Get.to(DetailScreen());
                 },
                 child: Container(
                   width: 160,
