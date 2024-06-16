@@ -116,7 +116,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final prefs = await SharedPreferences.getInstance();
   final onboarding = prefs.getBool("onboarding") ?? false;
-  
+
   // FirebaseApp secondaryApp = await Firebase.initializeApp(
   //   name: 'wisatadb1',
   //   options: FirebaseOptions(

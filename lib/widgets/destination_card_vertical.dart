@@ -17,9 +17,11 @@ import '../widgets/icons/favourite_icon.dart';
 // import 'widgets/add_to_cart_button.dart';
 import '../widgets/destination_card_pricing.dart';
 // import 'widgets/product_sale_tag.dart';
+import 'package:logger/logger.dart';
 
 class TDestinationCardVertical extends StatelessWidget {
-  const TDestinationCardVertical({super.key, required this.destination, this.isNetworkImage = true});
+  const TDestinationCardVertical(
+      {super.key, required this.destination, this.isNetworkImage = true});
 
   final DestinationModel destination;
   final bool isNetworkImage;
@@ -27,7 +29,7 @@ class TDestinationCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final destinationController = DestinationController.instance;
-    final salePercentage = destinationController.calculateSalePercentage(destination.price, destination.salePrice);
+    // final salePercentage = destinationController.calculateSalePercentage(destination.price, destination.salePrice);
     final dark = THelperFunctions.isDarkMode(context);
 
     return GestureDetector(
@@ -54,7 +56,11 @@ class TDestinationCardVertical extends StatelessWidget {
               child: Stack(
                 children: [
                   /// -- Thumbnail Image
-                  Center(child: TRoundedImage(imageUrl: destination.thumbnail, applyImageRadius: true, isNetworkImage: isNetworkImage)),
+                  Center(
+                      child: TRoundedImage(
+                          imageUrl: destination.thumbnail,
+                          applyImageRadius: true,
+                          isNetworkImage: true)),
 
                   /// -- Sale Tag
                   // if (salePercentage != null) ProductSaleTagWidget(salePercentage: salePercentage),
@@ -76,6 +82,7 @@ class TDestinationCardVertical extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // TProductTitleText(title: destination.title, smallSize: true),
                   TProductTitleText(title: destination.title, smallSize: true),
                   const SizedBox(height: TSizes.spaceBtwItems / 2),
                   // TBrandTitleWithVerifiedIcon(title: product.brand!.name, brandTextSize: TextSizes.small),
@@ -91,7 +98,7 @@ class TDestinationCardVertical extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// Pricing
-                PricingWidget(destination: destination),
+                // PricingWidget(destination: destination),
 
                 /// Add to cart
                 // ProductCardAddToCartButton(product: product),

@@ -44,7 +44,9 @@ class DestinationRepository extends GetxController {
   Future<List<DestinationModel>> fetchDestinationsByQuery(Query query) async {
     try {
       final querySnapshot = await query.get();
-      final List<DestinationModel> destionationList = querySnapshot.docs.map((doc) => DestinationModel.fromQuerySnapshot(doc)).toList();
+      final List<DestinationModel> destionationList = querySnapshot.docs
+          .map((doc) => DestinationModel.fromQuerySnapshot(doc))
+          .toList();
       return destionationList;
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -56,13 +58,20 @@ class DestinationRepository extends GetxController {
   }
 
   /// Get favorite products based on a list of product IDs.
-  Future<List<DestinationModel>> getFavouriteDestinations(List<String> destinationIds) async {
+  Future<List<DestinationModel>> getFavouriteDestinations(
+      List<String> destinationIds) async {
     try {
       // final snapshot = await _db.collection('Destinations').where(FieldPath.documentId, whereIn: destinationIds).get();
       // return snapshot.docs.map((querySnapshot) => DestinationModel.fromSnapshot(querySnapshot)).toList();
       if (destinationIds.isNotEmpty) {
-        final snapshot = await _db.collection('Destinations').where(FieldPath.documentId, whereIn: destinationIds).get();
-        return snapshot.docs.map((querySnapshot) => DestinationModel.fromSnapshot(querySnapshot)).toList();
+        final snapshot = await _db
+            .collection('Destinations')
+            .where(FieldPath.documentId, whereIn: destinationIds)
+            .get();
+        return snapshot.docs
+            .map(
+                (querySnapshot) => DestinationModel.fromSnapshot(querySnapshot))
+            .toList();
       } else {
         return []; // Return an empty list if destinationIds is empty
       }
@@ -78,21 +87,36 @@ class DestinationRepository extends GetxController {
   /// Fetches Destinations for a specific category.
   /// If the limit is -1, retrieves all Destinations for the category; otherwise, limits the result based on the provided limit.
   /// Returns a list of [DestinationModel] objects.
-  Future<List<DestinationModel>> getDestinationsForCategory({required String categoryId, int limit = 4}) async {
+  Future<List<DestinationModel>> getDestinationsForCategory(
+      {required String categoryId, int limit = 4}) async {
     try {
       // Query to get all documents where productId matches the provided categoryId & Fetch limited or unlimited based on limit
       QuerySnapshot destinationCategoryQuery = limit == -1
-          ? await _db.collection('DestinationCategory').where('categoryId', isEqualTo: categoryId).get()
-          : await _db.collection('DestinationCategory').where('categoryId', isEqualTo: categoryId).limit(limit).get();
+          ? await _db
+              .collection('DestinationCategory')
+              .where('categoryId', isEqualTo: categoryId)
+              .get()
+          : await _db
+              .collection('DestinationCategory')
+              .where('categoryId', isEqualTo: categoryId)
+              .limit(limit)
+              .get();
 
       // Extract productIds from the documents
-      List<String> destinationIds = destinationCategoryQuery.docs.map((doc) => doc['destinationId'] as String).toList();
+      List<String> destinationIds = destinationCategoryQuery.docs
+          .map((doc) => doc['destinationId'] as String)
+          .toList();
 
       // Query to get all documents where the brandId is in the list of brandIds, FieldPath.documentId to query documents in Collection
-      final destinationsQuery = await _db.collection('Destionations').where(FieldPath.documentId, whereIn: destinationIds).get();
+      final destinationsQuery = await _db
+          .collection('Destionations')
+          .where(FieldPath.documentId, whereIn: destinationIds)
+          .get();
 
       // Extract brand names or other relevant data from the documents
-      List<DestinationModel> destinations = destinationsQuery.docs.map((doc) => DestinationModel.fromSnapshot(doc)).toList();
+      List<DestinationModel> destinations = destinationsQuery.docs
+          .map((doc) => DestinationModel.fromSnapshot(doc))
+          .toList();
 
       return destinations;
     } on FirebaseException catch (e) {
@@ -107,15 +131,25 @@ class DestinationRepository extends GetxController {
   /// Fetches products for a specific brand.
   /// If the limit is -1, retrieves all products for the brand; otherwise, limits the result based on the provided limit.
   /// Returns a list of [ProductModel] objects.
-  Future<List<DestinationModel>> getDestinationsForBrand(String brandId, int limit) async {
+  Future<List<DestinationModel>> getDestinationsForBrand(
+      String brandId, int limit) async {
     try {
       // Query to get all documents where DestinationId matches the provided categoryId & Fetch limited or unlimited based on limit
       QuerySnapshot<Map<String, dynamic>> querySnapshot = limit == -1
-          ? await _db.collection('Destinations').where('Brand.Id', isEqualTo: brandId).get()
-          : await _db.collection('Destinations').where('Brand.Id', isEqualTo: brandId).limit(limit).get();
+          ? await _db
+              .collection('Destinations')
+              .where('Brand.Id', isEqualTo: brandId)
+              .get()
+          : await _db
+              .collection('Destinations')
+              .where('Brand.Id', isEqualTo: brandId)
+              .limit(limit)
+              .get();
 
       // Map Products
-      final destinations = querySnapshot.docs.map((doc) => DestinationModel.fromSnapshot(doc)).toList();
+      final destinations = querySnapshot.docs
+          .map((doc) => DestinationModel.fromSnapshot(doc))
+          .toList();
 
       return destinations;
     } on FirebaseException catch (e) {
@@ -127,10 +161,15 @@ class DestinationRepository extends GetxController {
     }
   }
 
-  Future<List<DestinationModel>> searchDestinations(String query, {String? categoryId, String? brandId, double? minPrice, double? maxPrice}) async {
+  Future<List<DestinationModel>> searchDestinations(String query,
+      {String? categoryId,
+      String? brandId,
+      double? minPrice,
+      double? maxPrice}) async {
     try {
       // Reference to the 'Destinations' collection in Firestore
-      CollectionReference destinationsCollection = FirebaseFirestore.instance.collection('Destinations');
+      CollectionReference destinationsCollection =
+          FirebaseFirestore.instance.collection('Destinations');
 
       // Start with a basic query to search for products where the name contains the query
       Query queryRef = destinationsCollection;
@@ -161,7 +200,9 @@ class DestinationRepository extends GetxController {
       QuerySnapshot querySnapshot = await queryRef.get();
 
       // Map the documents to ProductModel objects
-      final destinations = querySnapshot.docs.map((doc) => DestinationModel.fromQuerySnapshot(doc)).toList();
+      final destinations = querySnapshot.docs
+          .map((doc) => DestinationModel.fromQuerySnapshot(doc))
+          .toList();
 
       return destinations;
     } on FirebaseException catch (e) {

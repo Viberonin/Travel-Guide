@@ -1,17 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:travelguide/constants/sizes.dart';
+import 'package:travelguide/controllers/category/category_controller.dart';
+import 'package:travelguide/controllers/category/brand_controller.dart';
+import 'package:travelguide/controllers/destination/all_destination_controller.dart';
+import 'package:travelguide/controllers/destination/destination_controller.dart';
 import 'package:travelguide/controllers/user/user_controller.dart';
+import 'package:travelguide/models/destination_model.dart';
 import 'package:travelguide/models/user_model.dart';
 import 'package:travelguide/repositories/authentication/auth_repo.dart';
 import 'package:travelguide/screens/favourite/favourite_screen.dart';
 import 'package:travelguide/screens/home/widgets/categories_widget.dart';
 import 'package:travelguide/screens/home/widgets/search_and_filter.dart';
 import 'package:travelguide/screens/home/widgets/top_trips_widget.dart';
+import 'package:travelguide/utils/cloud_helper_functions.dart';
 import 'package:travelguide/utils/device_utility.dart';
+import 'package:travelguide/widgets/cards/categories_card.dart';
+import 'package:travelguide/widgets/destination_card_vertical.dart';
+import 'package:travelguide/widgets/layouts/grid_layout.dart';
+import 'package:travelguide/widgets/shimmers/vertical_destination.dart';
+import 'package:travelguide/widgets/texts/section_heading.dart';
+import 'package:logger/logger.dart';
+
+import '../../widgets/shimmers/categories_shimmer.dart';
 
 class AllDestinationScreen extends StatefulWidget {
   @override
@@ -20,28 +35,113 @@ class AllDestinationScreen extends StatefulWidget {
 
 class _AllDestinationScreenState extends State<AllDestinationScreen> {
   final userController = Get.put(UserController());
+  // Query? query;
+  Query<Map<String, dynamic>>? query;
+  Future<List<DestinationModel>>? futureMethod;
+  final logger = Logger();
 
   @override
   void initState() {
     super.initState();
     userController
         .fetchUserRecord(); // Fetch user record when the screen is initialized
+    initializeQuery();
+    futureMethod = fetchDestinations();
+  }
+
+  void initializeQuery() {
+    // Initialize the query variable with the desired Firestore query
+    query = FirebaseFirestore.instance.collection('destinations');
+  }
+
+  // Future<List<DestinationModel>> fetchDestinations() async {
+  //   // Example method to fetch destinations
+  //   final snapshot = await query?.get();
+  //   if (snapshot != null) {
+  //     return snapshot.docs
+  //         .map((doc) => DestinationModel.fromSnapshot(doc))
+  //         .toList();
+  //   } else {
+  //     return [];
+  //   }
+  // }
+
+  // Future<List<DestinationModel>> fetchDestinations() async {
+  // // Example method to fetch destinations
+  // final snapshot = await query?.get();
+  // if (snapshot != null) {
+  //   final documents = snapshot.docs;
+  //   // logger.d('Number of documents fetched: ${documents.length}'); // Print the number of documents fetched
+
+  //   final destinations = documents.map((doc) {
+  //     final destinationData = doc.data();
+  //     // logger.d('Destination data: $destinationData'); // Print the data for each destination
+
+  //     return DestinationModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>);
+  //   }).toList();
+
+  //   return destinations;
+  //   } else {
+  //     print('Snapshot is null'); // Print a message if the snapshot is null
+  //     return [];
+  //   }
+  // }
+
+  Future<List<DestinationModel>> fetchDestinations() async {
+    final snapshot = await query?.get();
+    if (snapshot != null) {
+      final documents = snapshot.docs;
+      final destinations = documents.map((doc) {
+        return DestinationModel.fromSnapshot(
+            doc as DocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+      return destinations;
+    } else {
+      print('Snapshot is null'); // Print a message if the snapshot is null
+      return [];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DestinationController());
+    Get.put(CategoryController());
+    final controller = Get.put(AllDestinationsController());
     final user = userController.user.value;
+    final categoryController = Get.put(CategoryController());
+    final categories = CategoryController.instance.featuredCategories;
+    final brandController = Get.put(BrandController());
 
-    Widget eAppBar() {
-      return AppBar(
-        elevation: 0,
-        // backgroundColor: Colors.white,
-        // surfaceTintColor: Colors.white,
-        // leading: IconButton(
-        //     onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left)),
-        title: Text("Explore Destinations",
-            style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-        centerTitle: true,
+    Widget categoriesGrid() {
+      return Obx(
+        () {
+          // Check if categories are still loading
+          if (brandController.isLoading.value) return const TBrandsShimmer();
+
+          // Check if there are no featured categories found
+          if (brandController.featuredBrands.isEmpty) {
+            return Center(
+                child: Text('HAHAHAHAHAH',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .apply(color: Colors.white)));
+          } else {
+            /// Data Found
+            return TGridLayout(
+              itemCount: 4,
+              mainAxisExtent: 80,
+              itemBuilder: (_, index) {
+                final brand = brandController.featuredBrands[index];
+                return TBrandCard(
+                  brand: brand,
+                  showBorder: true,
+                  // onTap: () => Get.to(() => BrandScreen(brand: brand)),
+                );
+              },
+            );
+          }
+        },
       );
     }
 
@@ -53,14 +153,51 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
           });
         });
       },
-      child: ListView(
-        physics: BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          // backgroundColor: Colors.white,
+          // surfaceTintColor: Colors.white,
+          // leading: IconButton(
+          //     onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left)),
+          title: Text("Explore Destinations",
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+          centerTitle: true,
         ),
-        children: [
-          eAppBar(),
-          
-        ],
+        body: Padding(
+          padding: const EdgeInsets.all(TSizes.defaultSpace / 1.5),
+          child: ListView(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            children: [
+              SearchAndFilter(),
+              TSectionHeading(title: "Categories", onPressed: () {}),
+              const SizedBox(height: TSizes.spaceBtwItems / 1.5),
+              categoriesGrid(),
+              // TGridLayout(
+              //     itemCount: 10,
+              //     itemBuilder: (_, index) => TDestinationCardVertical(
+              //         destination: DestinationModel.empty())),
+              FutureBuilder<List<DestinationModel>>(
+                future: futureMethod ?? controller.fetchProductsByQuery(query),
+                builder: (_, snapshot) {
+                  const loader = TVerticalProductShimmer();
+                  final widget = TCloudHelperFunctions.checkMultiRecordState(
+                      snapshot: snapshot, loader: loader);
+                  if (widget != null) return widget;
+                  final destinations = snapshot.data!;
+                  return TGridLayout(
+                      itemCount: controller.destinations.length,
+                      itemBuilder: (_, index) => TDestinationCardVertical(
+                          destination: controller.destinations[index],
+                          isNetworkImage: true));
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
