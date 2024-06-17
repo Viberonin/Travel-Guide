@@ -6,6 +6,7 @@ import 'package:travelguide/constants/image_strings.dart';
 import 'package:travelguide/constants/sizes.dart';
 import 'package:travelguide/controllers/favourite/favourite_controller.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
+import 'package:travelguide/screens/list_all/all_destination_screen.dart';
 import 'package:travelguide/utils/cloud_helper_functions.dart';
 import 'package:travelguide/utils/device_utility.dart';
 import 'package:travelguide/widgets/loaders/animation_loader.dart';
@@ -53,7 +54,7 @@ class FavouriteScreen extends StatelessWidget {
                       animation: TImages.pencilAnimation,
                       showAction: true,
                       actionText: 'Let\'s add some',
-                      onActionPressed: () => Get.off(() => HomeScreen()),
+                      onActionPressed: () => Get.to(() => AllDestinationScreen()),
                     );
                     const loader = TVerticalProductShimmer(itemCount: 6);
                     final widget =

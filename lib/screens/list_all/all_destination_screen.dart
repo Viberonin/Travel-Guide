@@ -156,10 +156,6 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          // backgroundColor: Colors.white,
-          // surfaceTintColor: Colors.white,
-          // leading: IconButton(
-          //     onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left)),
           title: Text("Explore Destinations",
               style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
           centerTitle: true,
@@ -169,17 +165,13 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
           child: ListView(
             shrinkWrap: true,
             physics: BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
+              parent: NeverScrollableScrollPhysics(),
             ),
             children: [
               SearchAndFilter(),
               TSectionHeading(title: "Categories", onPressed: () {}),
               const SizedBox(height: TSizes.spaceBtwItems / 1.5),
               categoriesGrid(),
-              // TGridLayout(
-              //     itemCount: 10,
-              //     itemBuilder: (_, index) => TDestinationCardVertical(
-              //         destination: DestinationModel.empty())),
               FutureBuilder<List<DestinationModel>>(
                 future: futureMethod ?? controller.fetchProductsByQuery(query),
                 builder: (_, snapshot) {
@@ -187,12 +179,13 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
                   final widget = TCloudHelperFunctions.checkMultiRecordState(
                       snapshot: snapshot, loader: loader);
                   if (widget != null) return widget;
+
                   final destinations = snapshot.data!;
                   return TGridLayout(
-                      itemCount: controller.destinations.length,
-                      itemBuilder: (_, index) => TDestinationCardVertical(
-                          destination: controller.destinations[index],
-                          isNetworkImage: true));
+                    itemCount: destinations.length,
+                    itemBuilder: (_, index) => TDestinationCardVertical(
+                        destination: destinations[index], isNetworkImage: true),
+                  );
                 },
               ),
             ],
