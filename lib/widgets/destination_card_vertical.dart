@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:travelguide/screens/detail/destination_detail.dart';
 
 import '../../controllers/destination/destination_controller.dart';
 import '../models/destination_model.dart';
@@ -33,7 +34,9 @@ class TDestinationCardVertical extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.to(DestinationDetailScreen(destination: destination));
+      },
 
       /// Container with side paddings, color, edges, radius and shadow.
       child: Container(

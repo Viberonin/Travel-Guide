@@ -61,11 +61,11 @@ class DestinationRepository extends GetxController {
   Future<List<DestinationModel>> getFavouriteDestinations(
       List<String> destinationIds) async {
     try {
-      // final snapshot = await _db.collection('Destinations').where(FieldPath.documentId, whereIn: destinationIds).get();
+      // final snapshot = await _db.collection('destinations').where(FieldPath.documentId, whereIn: destinationIds).get();
       // return snapshot.docs.map((querySnapshot) => DestinationModel.fromSnapshot(querySnapshot)).toList();
       if (destinationIds.isNotEmpty) {
         final snapshot = await _db
-            .collection('Destinations')
+            .collection('destinations')
             .where(FieldPath.documentId, whereIn: destinationIds)
             .get();
         return snapshot.docs
@@ -109,7 +109,7 @@ class DestinationRepository extends GetxController {
 
       // Query to get all documents where the brandId is in the list of brandIds, FieldPath.documentId to query documents in Collection
       final destinationsQuery = await _db
-          .collection('Destionations')
+          .collection('destinations')
           .where(FieldPath.documentId, whereIn: destinationIds)
           .get();
 
@@ -137,11 +137,11 @@ class DestinationRepository extends GetxController {
       // Query to get all documents where DestinationId matches the provided categoryId & Fetch limited or unlimited based on limit
       QuerySnapshot<Map<String, dynamic>> querySnapshot = limit == -1
           ? await _db
-              .collection('Destinations')
+              .collection('destinations')
               .where('Brand.Id', isEqualTo: brandId)
               .get()
           : await _db
-              .collection('Destinations')
+              .collection('destinations')
               .where('Brand.Id', isEqualTo: brandId)
               .limit(limit)
               .get();
@@ -161,40 +161,36 @@ class DestinationRepository extends GetxController {
     }
   }
 
-  Future<List<DestinationModel>> searchDestinations(String query,
-      {String? categoryId,
-      String? brandId,
-      double? minPrice,
-      double? maxPrice}) async {
+  Future<List<DestinationModel>> searchDestinations(String query) async {
     try {
       // Reference to the 'Destinations' collection in Firestore
       CollectionReference destinationsCollection =
-          FirebaseFirestore.instance.collection('Destinations');
+          FirebaseFirestore.instance.collection('destinations');
 
       // Start with a basic query to search for products where the name contains the query
       Query queryRef = destinationsCollection;
 
       // Apply the search filter
       if (query.isNotEmpty) {
-        queryRef = queryRef.where('Title', isGreaterThanOrEqualTo: query);
+        queryRef = queryRef.where('Name', isEqualTo: query);
       }
 
       // Apply filters
-      if (categoryId != null) {
-        queryRef = queryRef.where('CategoryId', isEqualTo: categoryId);
-      }
+      // if (categoryId != null) {
+      //   queryRef = queryRef.where('CategoryId', isEqualTo: categoryId);
+      // }
 
-      if (brandId != null) {
-        queryRef = queryRef.where('BrandId', isEqualTo: brandId);
-      }
+      // if (brandId != null) {
+      //   queryRef = queryRef.where('BrandId', isEqualTo: brandId);
+      // }
 
-      if (minPrice != null) {
-        queryRef = queryRef.where('Price', isGreaterThanOrEqualTo: minPrice);
-      }
+      // if (minPrice != null) {
+      //   queryRef = queryRef.where('Price', isGreaterThanOrEqualTo: minPrice);
+      // }
 
-      if (maxPrice != null) {
-        queryRef = queryRef.where('Price', isLessThanOrEqualTo: maxPrice);
-      }
+      // if (maxPrice != null) {
+      //   queryRef = queryRef.where('Price', isLessThanOrEqualTo: maxPrice);
+      // }
 
       // Execute the query
       QuerySnapshot querySnapshot = await queryRef.get();

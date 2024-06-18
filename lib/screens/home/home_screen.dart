@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Widget bannerJelajahiDestinasiAll() {
       return GestureDetector(
         onTap: () {
-          Get.put(AllDestinationScreen());
+          Get.to(AllDestinationScreen());
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),

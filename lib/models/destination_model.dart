@@ -152,6 +152,7 @@ import 'package:logger/logger.dart';
 class DestinationModel {
   String id;
   double price;
+  double rating;
   String title;
   String thumbnail;
   CityModel? city;
@@ -165,6 +166,7 @@ class DestinationModel {
     required this.title,
     required this.price,
     required this.thumbnail,
+    required this.rating,
     this.city,
     this.category,
     this.categoryId,
@@ -178,6 +180,7 @@ class DestinationModel {
         title: '',
         price: 0,
         thumbnail: '',
+        rating: 0,
       );
 
   /// Json Format
@@ -200,8 +203,9 @@ class DestinationModel {
     final data = document.data()!;
     return DestinationModel(
       id: document.id,
-      title: data['Name'],
+      title: data['Name'] ?? '',
       price: double.parse((data['Price'] ?? 0.0).toString()),
+      rating: double.parse((data['Rating'] ?? 0.0).toString()),
       thumbnail: data['Thumbnail'] ?? '',
       categoryId: data['CategoryId'] ?? '',
       description: data['Description'] ?? '',
@@ -218,6 +222,7 @@ class DestinationModel {
       id: document.id,
       title: data['Name'] ?? '',
       price: double.parse((data['Price'] ?? 0.0).toString()),
+      rating: double.parse((data['Rating'] ?? 0.0).toString()),
       thumbnail: data['Thumbnail'] ?? '',
       categoryId: data['CategoryId'] ?? '',
       description: data['Description'] ?? '',

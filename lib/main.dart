@@ -144,7 +144,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (_, __) => GetMaterialApp(
-        defaultTransition: Transition.rightToLeftWithFade,
+        defaultTransition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 500),
         debugShowCheckedModeBanner: false,
         title: 'Travel Guide',

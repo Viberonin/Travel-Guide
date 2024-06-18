@@ -5,6 +5,7 @@ import 'package:travelguide/controllers/favourite/favourite_controller.dart';
 import 'package:travelguide/screens/favourite/favourite_screen.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
 import 'package:travelguide/screens/list_all/all_destination_screen.dart';
+import 'package:travelguide/screens/map_view/view_in_map_button_test.dart';
 import 'package:travelguide/screens/profile/profile_screen.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -30,6 +31,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(
                 icon: Icon(Iconsax.heart), label: 'Favorites'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
+            NavigationDestination(icon: Icon(Iconsax.location), label: 'Test'),
           ],
         ),
       ),
@@ -45,5 +47,6 @@ class NavigationController extends GetxController {
     AllDestinationScreen(),
     FavouriteScreen(),
     const ProfileScreen(),
+    ViewInMapButtonTest(),
   ];
 }

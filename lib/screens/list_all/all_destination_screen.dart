@@ -9,6 +9,7 @@ import 'package:travelguide/controllers/category/category_controller.dart';
 import 'package:travelguide/controllers/category/brand_controller.dart';
 import 'package:travelguide/controllers/destination/all_destination_controller.dart';
 import 'package:travelguide/controllers/destination/destination_controller.dart';
+import 'package:travelguide/controllers/search/search_controller.dart';
 import 'package:travelguide/controllers/user/user_controller.dart';
 import 'package:travelguide/models/destination_model.dart';
 import 'package:travelguide/models/user_model.dart';
@@ -34,6 +35,7 @@ class AllDestinationScreen extends StatefulWidget {
 }
 
 class _AllDestinationScreenState extends State<AllDestinationScreen> {
+  final searchController = Get.put(TSearchController());
   final userController = Get.put(UserController());
   // Query? query;
   Query<Map<String, dynamic>>? query;
@@ -104,6 +106,7 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(TSearchController());
     Get.put(DestinationController());
     Get.put(CategoryController());
     final controller = Get.put(AllDestinationsController());
@@ -165,10 +168,11 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
           child: ListView(
             shrinkWrap: true,
             physics: BouncingScrollPhysics(
-              parent: NeverScrollableScrollPhysics(),
+              parent: AlwaysScrollableScrollPhysics(),
             ),
             children: [
               SearchAndFilter(),
+              const SizedBox(height: TSizes.spaceBtwItems / 1.5),
               TSectionHeading(title: "Categories", onPressed: () {}),
               const SizedBox(height: TSizes.spaceBtwItems / 1.5),
               categoriesGrid(),
