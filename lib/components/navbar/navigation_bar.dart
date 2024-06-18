@@ -20,7 +20,7 @@ class NavigationMenu extends StatelessWidget {
       bottomNavigationBar: Obx(
         () => NavigationBar(
           backgroundColor: Colors.white,
-          indicatorColor: Colors.grey.withOpacity(0.2),
+          indicatorColor: Color(0xFF008FA0).withOpacity(0.5),
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) =>
@@ -31,7 +31,7 @@ class NavigationMenu extends StatelessWidget {
             NavigationDestination(
                 icon: Icon(Iconsax.heart), label: 'Favorites'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
-            NavigationDestination(icon: Icon(Iconsax.location), label: 'Test'),
+            // NavigationDestination(icon: Icon(Iconsax.location), label: 'Test'),
           ],
         ),
       ),
@@ -47,6 +47,7 @@ class NavigationController extends GetxController {
     AllDestinationScreen(),
     FavouriteScreen(),
     const ProfileScreen(),
-    ViewInMapButtonTest(),
+    // ViewInMapButtonTest(),
+    // CoordinateList(),
   ];
 }

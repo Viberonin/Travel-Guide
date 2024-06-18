@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travelguide/controllers/signup/signup_controller.dart';
+import 'package:travelguide/screens/welcome/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -42,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: [
                 Image(
                     image: const AssetImage("assets/images/signup.png"),
-                    height: MediaQuery.of(context).size.height * 0.3),
+                    height: MediaQuery.of(context).size.height * 0.25),
                 Text("Create a new account",
                     style: GoogleFonts.poppins(
                         fontSize: 28, fontWeight: FontWeight.bold)),
@@ -151,11 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 5),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpScreen()),
-                        );
+                        Get.off(() => LoginScreen());
                       },
                       child: Text.rich(
                         TextSpan(

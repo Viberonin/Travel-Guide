@@ -62,6 +62,8 @@ class TDestinationCardVertical extends StatelessWidget {
                   Center(
                       child: TRoundedImage(
                           imageUrl: destination.thumbnail,
+                          width: double.infinity,
+                          height: 200,
                           applyImageRadius: true,
                           isNetworkImage: true)),
 

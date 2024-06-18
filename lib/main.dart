@@ -171,7 +171,7 @@ class InitialScreen extends StatelessWidget {
       }),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator.adaptive();
+          return CircularProgressIndicator();
         } else {
           return onboarding ? LoginScreen() : OnboardingScreen();
         }

@@ -160,6 +160,7 @@ class DestinationModel {
   String? categoryId;
   String? description;
   List<String>? images;
+  GeoPoint? coordinate;
 
   DestinationModel({
     required this.id,
@@ -172,6 +173,7 @@ class DestinationModel {
     this.categoryId,
     this.description,
     this.images,
+    this.coordinate,
   });
 
   /// Create Empty func for clean code
@@ -194,6 +196,7 @@ class DestinationModel {
       'City': city!.toJson(),
       'Category': category!.toJson(),
       'Description': description,
+      'Coordinate': coordinate,
     };
   }
 
@@ -212,6 +215,7 @@ class DestinationModel {
       city: CityModel.fromJson(data['City']),
       category: BrandModel.fromJson(data['Category']),
       images: data['Image'] != null ? List<String>.from(data['Image']) : [],
+      coordinate: data['Coordinate'],
     );
   }
 
@@ -229,6 +233,7 @@ class DestinationModel {
       city: CityModel.fromJson(data['City']),
       category: BrandModel.fromJson(data['Category']),
       images: data['Image'] != null ? List<String>.from(data['Image']) : [],
+      coordinate: data['Coordinate'],
     );
   }
 }

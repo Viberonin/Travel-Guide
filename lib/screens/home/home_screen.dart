@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:travelguide/constants/sizes.dart';
+import 'package:travelguide/controllers/destination/all_destination_controller.dart';
 import 'package:travelguide/controllers/user/user_controller.dart';
+import 'package:travelguide/models/destination_model.dart';
 import 'package:travelguide/models/user_model.dart';
 import 'package:travelguide/repositories/authentication/auth_repo.dart';
 import 'package:travelguide/screens/favourite/favourite_screen.dart';
@@ -76,12 +80,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final userController = Get.put(UserController());
+  Query<Map<String, dynamic>>? query;
+  Future<List<DestinationModel>>? futureMethod;
 
   @override
   void initState() {
     super.initState();
     userController
         .fetchUserRecord(); // Fetch user record when the screen is initialized
+    futureMethod = fetchDestinations();
+  }
+
+  Future<List<DestinationModel>> fetchDestinations() async {
+    final snapshot = await query?.get();
+    if (snapshot != null) {
+      final documents = snapshot.docs;
+      final destinations = documents.map((doc) {
+        return DestinationModel.fromSnapshot(
+            doc as DocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+      return destinations;
+    } else {
+      print('Snapshot is null'); // Print a message if the snapshot is null
+      return [];
+    }
   }
 
   @override
@@ -102,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   // 'Hello ${user.firstName!.split(" ")[0]}!',
-                  "Hello! How are you feeling today?",
+                  "Selamat Datang",
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -110,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Text(
                   // '@${user.username}',
-                  "Hoping for the rest of your day to be amazing!",
+                  "Semoga hari Anda menyenangkan!",
                   style: GoogleFonts.poppins(fontSize: 14),
                 ),
               ],
@@ -192,8 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               Image.asset(
-                'assets/images/onb_1.png',
-                // height: 150,
+                'assets/images/ss.png',
+                height: 130,
                 fit: BoxFit.contain,
               )
             ],
@@ -266,9 +288,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              Image.asset(
-                'assets/images/onb_1.png',
-                // height: 150,
+              SvgPicture.asset(
+                'assets/images/6.svg',
+                height: 130,
                 fit: BoxFit.contain,
               )
             ],
@@ -301,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 "See All",
                 style: GoogleFonts.poppins(
-                    fontSize: 16, color: Colors.black.withOpacity(0.5)),
+                    fontSize: 14, color: Colors.black.withOpacity(0.5)),
               ),
             )
           ],
@@ -313,21 +335,21 @@ class _HomeScreenState extends State<HomeScreen> {
     final destinations = [
       {
         "imageUrl": 'assets/images/komodo.jpeg',
-        "title": 'Gua Jomblang',
+        "title": 'Kampung Jodipan',
         "rating": '4.7',
         "location": 'Lumajang',
         "price": '40',
       },
       {
         "imageUrl": 'assets/images/komodo.jpeg',
-        "title": 'Bromo Mountain',
+        "title": 'Pantai Balekambang',
         "rating": '4.8',
         "location": 'Malang',
         "price": '50',
       },
       {
         "imageUrl": 'assets/images/komodo.jpeg',
-        "title": 'Borobudur Temple',
+        "title": 'Taman Rekreasi Tlogomas',
         "rating": '4.9',
         "location": 'Magelang',
         "price": '60',
@@ -351,6 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
     }
+
     return RefreshIndicator(
       onRefresh: () {
         return Future.delayed(Duration(seconds: 1), () {

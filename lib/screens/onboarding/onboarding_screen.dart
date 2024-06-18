@@ -120,6 +120,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -196,7 +197,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(controller.items[index].imagePath),
+                SvgPicture.asset(controller.items[index].imagePath, width: 300, height: 300,),
                 const SizedBox(height: 15),
                 Text(controller.items[index].title,
                     style: GoogleFonts.poppins(
@@ -204,7 +205,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 const SizedBox(height: 15),
                 Text(controller.items[index].subtitle,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(fontSize: 16)),
+                    style: GoogleFonts.poppins(fontSize: 16, color: Colors.black.withOpacity(0.5))),
               ],
             );
           },
@@ -219,7 +220,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         borderRadius: BorderRadius.circular(10),
         color: Colors.lightBlue,
       ),
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width / 1.1,
       height: 55,
       child: TextButton(
         onPressed: () async {

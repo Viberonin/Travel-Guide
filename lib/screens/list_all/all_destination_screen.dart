@@ -56,39 +56,6 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
     query = FirebaseFirestore.instance.collection('destinations');
   }
 
-  // Future<List<DestinationModel>> fetchDestinations() async {
-  //   // Example method to fetch destinations
-  //   final snapshot = await query?.get();
-  //   if (snapshot != null) {
-  //     return snapshot.docs
-  //         .map((doc) => DestinationModel.fromSnapshot(doc))
-  //         .toList();
-  //   } else {
-  //     return [];
-  //   }
-  // }
-
-  // Future<List<DestinationModel>> fetchDestinations() async {
-  // // Example method to fetch destinations
-  // final snapshot = await query?.get();
-  // if (snapshot != null) {
-  //   final documents = snapshot.docs;
-  //   // logger.d('Number of documents fetched: ${documents.length}'); // Print the number of documents fetched
-
-  //   final destinations = documents.map((doc) {
-  //     final destinationData = doc.data();
-  //     // logger.d('Destination data: $destinationData'); // Print the data for each destination
-
-  //     return DestinationModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>);
-  //   }).toList();
-
-  //   return destinations;
-  //   } else {
-  //     print('Snapshot is null'); // Print a message if the snapshot is null
-  //     return [];
-  //   }
-  // }
-
   Future<List<DestinationModel>> fetchDestinations() async {
     final snapshot = await query?.get();
     if (snapshot != null) {
@@ -173,9 +140,9 @@ class _AllDestinationScreenState extends State<AllDestinationScreen> {
             children: [
               SearchAndFilter(),
               const SizedBox(height: TSizes.spaceBtwItems / 1.5),
-              TSectionHeading(title: "Categories", onPressed: () {}),
+              // TSectionHeading(title: "Categories", onPressed: () {}),
               const SizedBox(height: TSizes.spaceBtwItems / 1.5),
-              categoriesGrid(),
+              // categoriesGrid(),
               FutureBuilder<List<DestinationModel>>(
                 future: futureMethod ?? controller.fetchProductsByQuery(query),
                 builder: (_, snapshot) {

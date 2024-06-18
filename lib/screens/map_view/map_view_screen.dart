@@ -1,35 +1,87 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:travelguide/models/destination_model.dart';
+import 'package:travelguide/screens/map_view/navigation_helper.dart';
 
 class MapViewScreen extends StatefulWidget {
-  const MapViewScreen({super.key});
+  final double initialLatitude;
+  final double initialLongitude;
+  final DestinationModel destination;
+
+  MapViewScreen({super.key, required this.initialLatitude, required this.initialLongitude, required this.destination});
 
   @override
   State<MapViewScreen> createState() => _MapViewScreenState();
 }
 
 class _MapViewScreenState extends State<MapViewScreen> {
-  final CameraPosition _cameraPosition =
-      CameraPosition(target: LatLng(-7.275623601294575, 112.79371278128939), zoom: 13.0);
+  // final CameraPosition _cameraPosition = CameraPosition(
+  //     target: LatLng(-7.275623601294575, 112.79371278128939), zoom: 13.0);
+  late CameraPosition _cameraPosition;
 
-  MapType _currentMapType = MapType.normal;
-  final ValueNotifier<MapType> _mapTypeNotifier = ValueNotifier<MapType>(MapType.normal);
+  MapType _currentMapType = MapType.terrain;
+  final ValueNotifier<MapType> _mapTypeNotifier =
+      ValueNotifier<MapType>(MapType.normal);
   Completer<GoogleMapController> _mapController = Completer();
 
-  final List<Marker> _markers = <Marker>[
-    Marker(
-      markerId: MarkerId('1'),
-      position: LatLng(20.42796133580664, 75.885749655962),
-      infoWindow: InfoWindow(
-        title: 'Predetermined Location',
+  final List<Marker> _markers = [];
+  final List<Polyline> _polylines = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _cameraPosition = CameraPosition(
+      target: LatLng(widget.initialLatitude, widget.initialLongitude),
+      zoom: 14.0,
+    );
+
+    _markers.add(
+      Marker(
+        markerId: MarkerId('1'),
+        position: LatLng(widget.initialLatitude, widget.initialLongitude),
+        infoWindow: InfoWindow(
+          title: 'Lokasi Tempat Wisata',
+        ),
       ),
-    ),
-  ];
+    );
+  }
+
+  void _updatePolylines(List<Polyline> newPolylines) {
+    setState(() {
+      _polylines.clear();
+      _polylines.addAll(newPolylines);
+    });
+  }
+
+  void _addMarkerAndMoveCamera(double latitude, double longitude) async {
+    final GoogleMapController controller = await _mapController.future;
+
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('newLocation'),
+          position: LatLng(latitude, longitude),
+          infoWindow: InfoWindow(
+            title: 'Selected Location',
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        ),
+      );
+    });
+
+    CameraPosition cameraPosition = CameraPosition(
+      target: LatLng(latitude, longitude),
+      zoom: 14,
+    );
+
+    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
 
   @override
   void dispose() {
@@ -74,6 +126,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
               initialCameraPosition: _cameraPosition,
               mapType: _currentMapType,
               markers: Set<Marker>.of(_markers),
+              polylines: Set<Polyline>.of(_polylines),
               onMapCreated: (GoogleMapController controller) {
                 _mapController.complete(controller);
               },
@@ -82,6 +135,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
               top: 20,
               left: 10,
               child: FloatingActionButton(
+                backgroundColor: Color(0xFF17B0C2),
                 heroTag: 'backButton',
                 onPressed: () {
                   Get.back();
@@ -96,6 +150,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
                 valueListenable: _mapTypeNotifier,
                 builder: (context, mapType, _) {
                   return FloatingActionButton(
+                    backgroundColor: Color(0xFF17B0C2),
                     heroTag: 'mapTypeButton',
                     onPressed: null,
                     child: PopupMenuButton<MapType>(
@@ -106,12 +161,14 @@ class _MapViewScreenState extends State<MapViewScreen> {
                           _currentMapType = result;
                         });
                       },
-                      itemBuilder: (BuildContext context) => <PopupMenuEntry<MapType>>[
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<MapType>>[
                         PopupMenuItem<MapType>(
                           value: MapType.normal,
                           child: Row(
                             children: [
-                              if (mapType == MapType.normal) Icon(Icons.check, color: Colors.blue),
+                              if (mapType == MapType.normal)
+                                Icon(Icons.check, color: Colors.blue),
                               Text('Normal'),
                             ],
                           ),
@@ -120,7 +177,8 @@ class _MapViewScreenState extends State<MapViewScreen> {
                           value: MapType.hybrid,
                           child: Row(
                             children: [
-                              if (mapType == MapType.hybrid) Icon(Icons.check, color: Colors.blue),
+                              if (mapType == MapType.hybrid)
+                                Icon(Icons.check, color: Colors.blue),
                               Text('Hybrid'),
                             ],
                           ),
@@ -129,7 +187,8 @@ class _MapViewScreenState extends State<MapViewScreen> {
                           value: MapType.satellite,
                           child: Row(
                             children: [
-                              if (mapType == MapType.satellite) Icon(Icons.check, color: Colors.blue),
+                              if (mapType == MapType.satellite)
+                                Icon(Icons.check, color: Colors.blue),
                               Text('Satellite'),
                             ],
                           ),
@@ -138,7 +197,8 @@ class _MapViewScreenState extends State<MapViewScreen> {
                           value: MapType.terrain,
                           child: Row(
                             children: [
-                              if (mapType == MapType.terrain) Icon(Icons.check, color: Colors.blue),
+                              if (mapType == MapType.terrain)
+                                Icon(Icons.check, color: Colors.blue),
                               Text('Terrain'),
                             ],
                           ),
@@ -149,163 +209,30 @@ class _MapViewScreenState extends State<MapViewScreen> {
                 },
               ),
             ),
-            DraggableScrollableSheet(
-              initialChildSize: 0.2, // Initially occupy 20% of the screen height
-              minChildSize: 0.2, // Minimum height
-              maxChildSize: 0.4, // Maximum height
-              builder: (BuildContext context, ScrollController scrollController) {
-                return NotificationListener<DraggableScrollableNotification>(
-                  onNotification: (DraggableScrollableNotification notification) {
-                    setState(() {
-                      _bottomSheetHeight = notification.extent;
-                    });
-                    return true;
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            controller: scrollController,
-                            itemCount: 2, // Assume 'places' is a list containing your data
-                            itemBuilder: (BuildContext context, int index) {
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 20,
-                                        child: Column(
-                                          children: [
-                                            if (index != 0) 
-                                              Container(
-                                                height: 20,
-                                                width: 2,
-                                                color: Colors.grey,
-                                              ),
-                                            Icon(
-                                              Icons.circle,
-                                              size: 10,
-                                              // color: index == places.length - 1 ? Colors.red : Colors.black,
-                                              color: index == 2 - 1 ? Colors.red : Colors.black,
-                                            ),
-                                            if (index != 2 - 1) 
-                                              Container(
-                                                height: 20,
-                                                width: 2,
-                                                color: Colors.grey,
-                                              ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            // places[index].name,
-                                            "Politeknik Elektronika Negeri Surabaya",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            // places[index].info1,
-                                            "Politeknik Elektronika Negeri Surabaya",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          Text(
-                                            // places[index].info2,
-                                            "Politeknik Elektronika Negeri Surabaya",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  if (index != 2 - 1) 
-                                    Divider(),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Finish Trip Action
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white, // Button color
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(color: Colors.black), // Border color
-                                  ),
-                                ),
-                                child: Text(
-                                  'Finish Trip',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Navigate Action
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.black, // Button color
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Navigate',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            dragScrollSheet(),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * _bottomSheetHeight + 2,
+                  bottom:
+                      MediaQuery.of(context).size.height * _bottomSheetHeight +
+                          2,
                   right: 10,
                 ),
                 child: FloatingActionButton(
+                  backgroundColor: Color(0xFF17B0C2),
                   heroTag: 'getLocationButton',
                   onPressed: () async {
                     Position position = await _getCurrentLocation();
-                    LatLng currentPosition = LatLng(position.latitude, position.longitude);
+                    LatLng currentPosition =
+                        LatLng(position.latitude, position.longitude);
                     setState(() {
                       _markers.add(
                         Marker(
                           markerId: MarkerId('2'),
                           position: currentPosition,
                           infoWindow: InfoWindow(
-                            title: 'My Current Location',
+                            title: 'Lokasi Saya Saat Ini',
                           ),
                         ),
                       );
@@ -315,8 +242,10 @@ class _MapViewScreenState extends State<MapViewScreen> {
                       zoom: 14,
                     );
 
-                    final GoogleMapController controller = await _mapController.future;
-                    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+                    final GoogleMapController controller =
+                        await _mapController.future;
+                    controller.animateCamera(
+                        CameraUpdate.newCameraPosition(cameraPosition));
                   },
                   child: Icon(Icons.my_location),
                 ),
@@ -325,6 +254,175 @@ class _MapViewScreenState extends State<MapViewScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  DraggableScrollableSheet dragScrollSheet() {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.25, // Initially occupy 25% of the screen height
+      minChildSize: 0.15, // Minimum height
+      maxChildSize: 0.25, // Maximum height
+      builder: (BuildContext context, ScrollController scrollController) {
+        return NotificationListener<DraggableScrollableNotification>(
+          onNotification: (DraggableScrollableNotification notification) {
+            setState(() {
+              _bottomSheetHeight = notification.extent;
+            });
+            return true;
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 76, 233, 238),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 10, left: 10, right: 15),
+              child: Column(
+                children: [
+                  // Departure
+                  Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.circle,
+                              size: 20,
+                              color: Colors.black,
+                            ),
+                            Container(
+                              height: 20,
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            "Lokasi Saya Saat Ini",
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(),
+                  // Destination
+                  Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                            Icon(
+                              Icons.circle,
+                              size: 20,
+                              color: Colors.red,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            widget.destination.title,
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Finish Trip Action
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white, // Button color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(color: Colors.black), // Border color
+                              ),
+                            ),
+                            child: Text(
+                              'Finish Trip',
+                              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10), // Add some space between the buttons
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              final GoogleMapController controller = await _mapController.future;
+                              NavigationHelper.showPolylineAndInfo(
+                                context: context,
+                                mapController: controller,
+                                startLatLng: LatLng(widget.initialLatitude, widget.initialLongitude),
+                                endLatLng: _markers.last.position,
+                                updatePolylines: _updatePolylines,
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black, // Button color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Navigate',
+                              style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

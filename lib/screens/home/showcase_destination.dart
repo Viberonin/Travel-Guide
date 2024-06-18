@@ -180,7 +180,7 @@ class ShowcaseDestination extends StatelessWidget {
                   children: [
                     Text(
                       title, // Use the parameter title
-                      style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
