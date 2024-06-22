@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:travelguide/constants/image_strings.dart';
 import 'package:travelguide/constants/sizes.dart';
 import 'package:travelguide/controllers/favourite/favourite_controller.dart';
+import 'package:travelguide/controllers/destination/destination_controller.dart';
 import 'package:travelguide/screens/home/home_screen.dart';
 import 'package:travelguide/screens/list_all/all_destination_screen.dart';
 import 'package:travelguide/utils/cloud_helper_functions.dart';
@@ -20,7 +21,8 @@ class FavouriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(FavouritesController()); 
+    Get.put(DestinationController());
+    Get.put(FavouritesController());
     return Scaffold(
       backgroundColor: Colors.white,
       // appBar: TAppBar(
@@ -29,14 +31,15 @@ class FavouriteScreen extends StatelessWidget {
       //   // actions: [TCircularIcon(icon: Iconsax.add, onPressed: () => Get.to(() => const StoreScreen()))],
       // ),
       appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,
-      // leading: IconButton(
-      //     onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left)),
-      title: Text("Your Saved Places", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-      centerTitle: true,
-    ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        // leading: IconButton(
+        //     onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left)),
+        title: Text("Your Saved Places",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -45,8 +48,7 @@ class FavouriteScreen extends StatelessWidget {
               /// Products Grid
               Obx(() {
                 return FutureBuilder(
-                  future:
-                      FavouritesController.instance.favoriteDestinations(),
+                  future: FavouritesController.instance.favoriteDestinations(),
                   builder: (_, snapshot) {
                     /// Nothing Found Widget
                     final emptyWidget = TAnimationLoaderWidget(
@@ -54,16 +56,16 @@ class FavouriteScreen extends StatelessWidget {
                       animation: TImages.pencilAnimation,
                       showAction: true,
                       actionText: 'Let\'s add some',
-                      onActionPressed: () => Get.to(() => AllDestinationScreen()),
+                      onActionPressed: () =>
+                          Get.to(() => AllDestinationScreen()),
                     );
                     const loader = TVerticalProductShimmer(itemCount: 6);
-                    final widget =
-                        TCloudHelperFunctions.checkMultiRecordState(
-                            snapshot: snapshot,
-                            loader: loader,
-                            nothingFound: emptyWidget);
+                    final widget = TCloudHelperFunctions.checkMultiRecordState(
+                        snapshot: snapshot,
+                        loader: loader,
+                        nothingFound: emptyWidget);
                     if (widget != null) return widget;
-    
+
                     final destinations = snapshot.data!;
                     return TGridLayout(
                       itemCount: destinations.length,

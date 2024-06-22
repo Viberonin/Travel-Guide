@@ -73,11 +73,13 @@ class ProfileScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis)),
                       Expanded(
                           flex: 5,
-                          child: Text("Naruto Uzumaki",
+                          child: Text("Adi Budi",
                               style: GoogleFonts.poppins(),
                               overflow: TextOverflow.ellipsis)),
                       const Expanded(
-                          child: const Icon(Iconsax.arrow_right_34, size: 18)),
+                          // child: const Icon(Iconsax.arrow_right_34, size: 18)
+                          child: SizedBox(),
+                        ),
                     ],
                   ),
                 ),
@@ -95,11 +97,11 @@ class ProfileScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis)),
                       Expanded(
                           flex: 5,
-                          child: Text("naruto_uzumaki",
+                          child: Text("adi_budi",
                               style: GoogleFonts.poppins(),
                               overflow: TextOverflow.ellipsis)),
                       const Expanded(
-                          child: const Icon(Iconsax.arrow_right_34, size: 18)),
+                          child: SizedBox()),
                     ],
                   ),
                 ),
@@ -127,7 +129,7 @@ class ProfileScreen extends StatelessWidget {
                           child: Text("49761",
                               style: GoogleFonts.poppins(),
                               overflow: TextOverflow.ellipsis)),
-                      const Expanded(child: const Icon(Iconsax.copy, size: 18)),
+                      const Expanded(child: SizedBox()),
                     ],
                   ),
                 ),
@@ -145,11 +147,11 @@ class ProfileScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis)),
                       Expanded(
                           flex: 5,
-                          child: Text("naruto@gmail.com",
+                          child: Text("adibudi@gmail.com",
                               style: GoogleFonts.poppins(),
                               overflow: TextOverflow.ellipsis)),
                       const Expanded(
-                          child: const Icon(Iconsax.arrow_right_34, size: 18)),
+                          child: SizedBox(),),
                     ],
                   ),
                 ),
@@ -167,11 +169,11 @@ class ProfileScreen extends StatelessWidget {
                               overflow: TextOverflow.ellipsis)),
                       Expanded(
                           flex: 5,
-                          child: Text("081294728192",
+                          child: Text("081333067305",
                               style: GoogleFonts.poppins(),
                               overflow: TextOverflow.ellipsis)),
                       const Expanded(
-                          child: const Icon(Iconsax.arrow_right_34, size: 18)),
+                          child: SizedBox(),),
                     ],
                   ),
                 ),

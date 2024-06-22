@@ -220,7 +220,7 @@ class ShowcaseDestination extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$$price / Visit', // Use the parameter price
+                      '$price', // Use the parameter price
                       style: GoogleFonts.poppins(fontSize: 16, color: Colors.blue),
                     ),
                     // Icon(

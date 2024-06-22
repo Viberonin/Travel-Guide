@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:travelguide/models/destination_model.dart';
+import 'package:travelguide/screens/map_view/finished_trip_screen.dart';
 import 'package:travelguide/screens/map_view/navigation_helper.dart';
 
 class MapViewScreen extends StatefulWidget {
@@ -14,7 +15,11 @@ class MapViewScreen extends StatefulWidget {
   final double initialLongitude;
   final DestinationModel destination;
 
-  MapViewScreen({super.key, required this.initialLatitude, required this.initialLongitude, required this.destination});
+  MapViewScreen(
+      {super.key,
+      required this.initialLatitude,
+      required this.initialLongitude,
+      required this.destination});
 
   @override
   State<MapViewScreen> createState() => _MapViewScreenState();
@@ -279,7 +284,8 @@ class _MapViewScreenState extends State<MapViewScreen> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(top: 40, bottom: 10, left: 10, right: 15),
+              padding: const EdgeInsets.only(
+                  top: 40, bottom: 10, left: 10, right: 15),
               child: Column(
                 children: [
                   // Departure
@@ -305,7 +311,8 @@ class _MapViewScreenState extends State<MapViewScreen> {
                       SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
@@ -347,7 +354,8 @@ class _MapViewScreenState extends State<MapViewScreen> {
                       SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
@@ -374,30 +382,35 @@ class _MapViewScreenState extends State<MapViewScreen> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              // Finish Trip Action
+                              Get.to(FinishedTripScreen());
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white, // Button color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                side: BorderSide(color: Colors.black), // Border color
+                                side: BorderSide(
+                                    color: Colors.black), // Border color
                               ),
                             ),
                             child: Text(
                               'Finish Trip',
-                              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
-                        SizedBox(width: 10), // Add some space between the buttons
+                        SizedBox(
+                            width: 10), // Add some space between the buttons
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              final GoogleMapController controller = await _mapController.future;
+                              final GoogleMapController controller =
+                                  await _mapController.future;
                               NavigationHelper.showPolylineAndInfo(
                                 context: context,
                                 mapController: controller,
-                                startLatLng: LatLng(widget.initialLatitude, widget.initialLongitude),
+                                startLatLng: LatLng(widget.initialLatitude,
+                                    widget.initialLongitude),
                                 endLatLng: _markers.last.position,
                                 updatePolylines: _updatePolylines,
                               );
@@ -410,7 +423,9 @@ class _MapViewScreenState extends State<MapViewScreen> {
                             ),
                             child: Text(
                               'Navigate',
-                              style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),
+                              style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),

@@ -334,25 +334,25 @@ class _HomeScreenState extends State<HomeScreen> {
     // List of destination data
     final destinations = [
       {
-        "imageUrl": 'assets/images/komodo.jpeg',
+        "imageUrl": 'assets/jodipan/5f2b0c1d1d073_ori.jpg',
         "title": 'Kampung Jodipan',
         "rating": '4.7',
-        "location": 'Lumajang',
-        "price": '40',
+        "location": 'Malang',
+        "price": 'Rp. 15,000',
       },
       {
-        "imageUrl": 'assets/images/komodo.jpeg',
+        "imageUrl": 'assets/balekambang/5f1d20b4b198b.jpg',
         "title": 'Pantai Balekambang',
         "rating": '4.8',
         "location": 'Malang',
-        "price": '50',
+        "price": 'Free',
       },
       {
-        "imageUrl": 'assets/images/komodo.jpeg',
+        "imageUrl": 'assets/tlogomas/Taman-Rekreasi-Tlogomas.jpg',
         "title": 'Taman Rekreasi Tlogomas',
         "rating": '4.9',
-        "location": 'Magelang',
-        "price": '60',
+        "location": 'Malang',
+        "price": 'Rp. 10,000',
       },
     ];
 
