@@ -72,6 +72,7 @@ dependencies:
   logger: ^2.3.0
   flutter_polyline_points: ^2.0.0
   readmore: ^3.0.0
+  flutter_dialogs: ^3.0.0
 
 dev_dependencies:
   flutter_test:
