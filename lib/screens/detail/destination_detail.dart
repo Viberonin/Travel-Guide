@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 import 'package:travelguide/constants/colors.dart';
+import 'package:travelguide/screens/detail/paket_wisata.dart';
 import 'package:travelguide/screens/map_view/map_view_screen.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 
@@ -27,84 +28,6 @@ class DestinationDetailScreen extends StatefulWidget {
 
 class _DestinationDetailScreenState extends State<DestinationDetailScreen> {
   String selectedPackage = 'Pilih Paket Wisata';
-
-  void _showPackageDialog() {
-    showPlatformDialog(
-      context: context,
-      androidBarrierDismissible: true,
-      builder: (_) => BasicDialogAlert(
-        title: Text("Pilih Paket Wisata", style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Divider(),
-            RadioListTile(
-              title: Text('Penginapan di Hotel Bintang 3, Transportasi dengan Bus Pariwisata, Kunjungan ke 3 Tempat Wisata, dan Konsumsi 2 Kali Makan Sehari.', style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14),),
-              value: 'Paket A',
-              groupValue: selectedPackage,
-              onChanged: (value) {
-                setState(() {
-                  selectedPackage = value as String;
-                  Navigator.pop(context);
-                });
-              },
-            ),
-            Divider(),
-            RadioListTile(
-              title: Text('Penginapan di Hotel Bintang 4, Transportasi dengan Minibus atau Mobil Pribadi, Kunjungan ke 5 Tempat Wisata termasuk Tempat Rekreasi Anak, dan Konsumsi 3 Kali Makan Sehari.', style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14),),
-              value: 'Paket B',
-              groupValue: selectedPackage,
-              onChanged: (value) {
-                setState(() {
-                  selectedPackage = value as String;
-                  Navigator.pop(context);
-                });
-              },
-            ),
-            Divider(),
-            RadioListTile(
-              title: Text('Penginapan di Hotel Bintang 5, Transportasi dengan Mobil Pribadi Premium, Kunjungan ke 7 Tempat Wisata termasuk Wisata Kuliner, dan Konsumsi 3 Kali Makan Sehari di Restoran Ternama.', style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14),),
-              value: 'Paket C',
-              groupValue: selectedPackage,
-              onChanged: (value) {
-                setState(() {
-                  selectedPackage = value as String;
-                  Navigator.pop(context);
-                });
-              },
-            ),
-            Divider(),
-          ],
-        ),
-        actions: <Widget>[
-          BasicDialogAction(
-            title: Text("Cancel", style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14),),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          BasicDialogAction(
-            title: Text("OK", style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14),),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +76,9 @@ class _DestinationDetailScreenState extends State<DestinationDetailScreen> {
                   const SizedBox(height: TSizes.spaceBtwSections),
                   // - Dropdown Menu for Paket Wisata
                   GestureDetector(
-                    onTap: _showPackageDialog,
+                    onTap: () {
+                      Get.to(() => PaketWisataScreen());
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                       decoration: BoxDecoration(

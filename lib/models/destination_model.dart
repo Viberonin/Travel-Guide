@@ -176,7 +176,7 @@ class DestinationModel {
     this.coordinate,
   });
 
-  /// Create Empty func for clean code
+  // Create Empty func for clean code
   static DestinationModel empty() => DestinationModel(
         id: '',
         title: '',
@@ -185,7 +185,7 @@ class DestinationModel {
         rating: 0,
       );
 
-  /// Json Format
+  // Json Format
   toJson() {
     return {
       'Name': title,
@@ -200,7 +200,7 @@ class DestinationModel {
     };
   }
 
-  /// Map Json-oriented document snapshot from Firebase to Model
+  // Map Json-oriented document snapshot from Firebase to Model
   factory DestinationModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;

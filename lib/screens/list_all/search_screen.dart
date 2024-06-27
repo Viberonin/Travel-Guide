@@ -30,7 +30,7 @@ class SearchScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              /// Search bar & Filter Button
+              // Search bar & Filter Button
               Row(
                 children: [
                   /// Search
@@ -69,7 +69,7 @@ class SearchScreen extends StatelessWidget {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
 
-              /// Search
+              // Search
               Obx(
                 () => searchController.isLoading.value
                     ? Center(child: CircularProgressIndicator())
