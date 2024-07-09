@@ -41,9 +41,7 @@ class _DestinationDetailScreenState extends State<DestinationDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1 - Product Image Slider
             TProductImageSlider(destination: widget.destination),
-            // 2 - Product Details
             Container(
               padding: const EdgeInsets.only(
                   right: TSizes.defaultSpace,
@@ -52,11 +50,8 @@ class _DestinationDetailScreenState extends State<DestinationDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // - Rating & Share
                   const TRatingAndShare(),
                   Text(widget.destination.rating.toString()),
-                  // - Price, Title, Stock, & Brand
-                  // const SizedBox(height: TSizes.spaceBtwSections / 2),
                   Text(
                     widget.destination.title!,
                     textAlign: TextAlign.justify,

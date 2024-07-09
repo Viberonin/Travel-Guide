@@ -117,21 +117,6 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final onboarding = prefs.getBool("onboarding") ?? false;
 
-  // FirebaseApp secondaryApp = await Firebase.initializeApp(
-  //   name: 'wisatadb1',
-  //   options: FirebaseOptions(
-  //     apiKey: DefaultFirebaseOptions.currentPlatform.apiKey,
-  //     appId: DefaultFirebaseOptions.currentPlatform.appId,
-  //     messagingSenderId: DefaultFirebaseOptions.currentPlatform.messagingSenderId,
-  //     projectId: DefaultFirebaseOptions.currentPlatform.projectId,
-  //     authDomain: DefaultFirebaseOptions.currentPlatform.authDomain,
-  //     storageBucket: DefaultFirebaseOptions.currentPlatform.storageBucket,
-  //     databaseURL: 'https://maps-api-for-pa-pens.firebaseio.com',  // Firestore does not use this directly, but required
-  //   ),
-  // );
-
-  // FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: secondaryApp);
-
   runApp(MyApp(onboarding: onboarding));
 }
 
@@ -179,3 +164,18 @@ class InitialScreen extends StatelessWidget {
     );
   }
 }
+
+// FirebaseApp secondaryApp = await Firebase.initializeApp(
+  //   name: 'wisatadb1',
+  //   options: FirebaseOptions(
+  //     apiKey: DefaultFirebaseOptions.currentPlatform.apiKey,
+  //     appId: DefaultFirebaseOptions.currentPlatform.appId,
+  //     messagingSenderId: DefaultFirebaseOptions.currentPlatform.messagingSenderId,
+  //     projectId: DefaultFirebaseOptions.currentPlatform.projectId,
+  //     authDomain: DefaultFirebaseOptions.currentPlatform.authDomain,
+  //     storageBucket: DefaultFirebaseOptions.currentPlatform.storageBucket,
+  //     databaseURL: 'https://maps-api-for-pa-pens.firebaseio.com',  // Firestore does not use this directly, but required
+  //   ),
+  // );
+
+  // FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: secondaryApp);

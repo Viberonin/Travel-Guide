@@ -26,8 +26,6 @@ class MapViewScreen extends StatefulWidget {
 }
 
 class _MapViewScreenState extends State<MapViewScreen> {
-  // final CameraPosition _cameraPosition = CameraPosition(
-  //     target: LatLng(-7.275623601294575, 112.79371278128939), zoom: 13.0);
   late CameraPosition _cameraPosition;
 
   MapType _currentMapType = MapType.terrain;

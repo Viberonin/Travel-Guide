@@ -30,19 +30,9 @@ class SearchScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Search bar & Filter Button
               Row(
                 children: [
-                  /// Search
                   Expanded(
-                    // child: TextFormField(
-                    //   autofocus: true,
-                    //   onChanged: (search) =>
-                    //       searchController.searchDestinations(search),
-                    //   decoration: const InputDecoration(
-                    //       prefixIcon: Icon(Iconsax.search_normal),
-                    //       hintText: 'Search'),
-                    // ),
                     child: TextField(
                       autofocus: true,
                       onChanged: (search) =>
@@ -56,15 +46,6 @@ class SearchScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // const SizedBox(width: TSizes.spaceBtwItems),
-
-                  /// Filter
-                  // OutlinedButton(
-                  //   onPressed: () => filterModalBottomSheet(context),
-                  //   style: OutlinedButton.styleFrom(
-                  //       side: const BorderSide(color: Colors.grey)),
-                  //   child: const Icon(Iconsax.setting, color: Colors.grey),
-                  // ),
                 ],
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
@@ -91,3 +72,22 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
+
+// child: TextFormField(
+                    //   autofocus: true,
+                    //   onChanged: (search) =>
+                    //       searchController.searchDestinations(search),
+                    //   decoration: const InputDecoration(
+                    //       prefixIcon: Icon(Iconsax.search_normal),
+                    //       hintText: 'Search'),
+                    // ),
+
+                    // const SizedBox(width: TSizes.spaceBtwItems),
+
+                  /// Filter
+                  // OutlinedButton(
+                  //   onPressed: () => filterModalBottomSheet(context),
+                  //   style: OutlinedButton.styleFrom(
+                  //       side: const BorderSide(color: Colors.grey)),
+                  //   child: const Icon(Iconsax.setting, color: Colors.grey),
+                  // ),
